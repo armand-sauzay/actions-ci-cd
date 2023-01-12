@@ -10,10 +10,10 @@ runs:
   steps:
     - uses: armand-sauzay/actions-installs/actionlint@initial-repo-setup
     - name: Lint
-      uses: armand-sauzay/actions-python/lint@initial-repo-setup
+      uses: armand-sauzay/actions-ci-cd/lint/python@initial-repo-setup
       with:
         github-token: ${{ inputs.github-token }}
     - name: Test
-      uses: armand-sauzay/actions-python/test@initial-repo-setup
+      uses: armand-sauzay/actions-ci-cd/test/python@initial-repo-setup
       with:
         github-token: ${{ inputs.github-token }}
