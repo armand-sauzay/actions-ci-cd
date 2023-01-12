@@ -22,7 +22,7 @@ runs:
         python-version: ${{ inputs.python_version }}
     - name: Install poetry dependencies
       if: hashFiles('poetry.lock') != ''
-      uses: armand-sauzay/actions-install/poetry@initial-repo-setup
+      uses: armand-sauzay/actions-installs/poetry@initial-repo-setup
     - name: Install pip dependencies
       if: hashFiles('poetry.lock') == ''
       shell: bash
