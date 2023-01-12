@@ -12,6 +12,8 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Common lint
+      uses: armand-sauzay/actions-ci-cd/lint/common@initial-repo-setup
     - name: Setup python
       uses: actions/setup-python@v3
       with:
@@ -28,5 +30,3 @@ runs:
       if: hashFiles('poetry.lock') == ''
       shell: bash
       run: pip install -e .
-    - name: Common lint
-      uses: armand-sauzay/actions-ci-cd/lint/common@initial-repo-setup
