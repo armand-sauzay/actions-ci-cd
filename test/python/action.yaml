@@ -16,14 +16,12 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Common test
+      uses: armand-sauzay/actions-ci-cd/test/common@initial-repo-setup
     - name: Setup python
       uses: actions/setup-python@v3
       with:
         python-version: ${{ inputs.python_version }}
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        fetch-depth: 0
     - name: Install pip dependencies
       if: hashFiles('poetry.lock') == ''
       shell: bash
