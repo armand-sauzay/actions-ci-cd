@@ -47,9 +47,8 @@ runs:
       with:
         python-version: ${{ inputs.python_version }}
     - name: Install poetry
-      shell: bash
-      run: |
-        /../lib/install-poetry
+      if: hashFiles('poetry.lock') != ''
+      uses: armand-sauzay/actions-installs/poetry@initial-repo-setup
     - name: Version
       id: version
       uses: cycjimmy/semantic-release-action@v3
@@ -65,7 +64,7 @@ runs:
       if: hashFiles('poetry.lock') == '' && steps.version.outputs.new_release_published != 'false'
       shell: bash
       run: echo "::warning::New version published for non-poetry package, version must be updated manually in setup.py and code."
-    - name: Update package version (non-poetry)
+    - name: Update package version (poetry)
       if: hashFiles('poetry.lock') != '' && steps.version.outputs.new_release_published != 'false'
       shell: bash
       run: |
@@ -98,7 +97,7 @@ runs:
     - name: Release
       id: release
       if: steps.version.outputs.new_release_published == 'true'
-      uses: cycjimmy/semantic-release-action@v3
+      uses: armand-sauzay/actions-ci-cd/release/common@initial-repo-setup
       with:
         dry_run: ${{ inputs.dry-run }}
         extra_plugins: ${{ inputs.extra-plugins }}
