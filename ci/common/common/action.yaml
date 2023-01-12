@@ -1,0 +1,19 @@
+name: Common CI
+description: GitHub Action runs common CI on a repository
+inputs:
+  github-token:
+    required: true
+    description: GitHub token that can checkout the repository. e.g. 'secrets.GITHUB_TOKEN'
+    default: ${{ github.token }}
+runs:
+  using: composite
+  steps:
+    - uses: armand-sauzay/actions-installs/actionlint@initial-repo-setup
+    - name: Lint
+      uses: armand-sauzay/actions-ci-cd/lint/common@initial-repo-setup
+      with:
+        github-token: ${{ inputs.github-token }}
+    - name: Test
+      uses: armand-sauzay/actions-ci-cd/test/common@initial-repo-setup
+      with:
+        github-token: ${{ inputs.github-token }}
