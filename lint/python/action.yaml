@@ -1,0 +1,32 @@
+name: Python Lint
+description: GitHub Action that lints a Python based repository
+inputs:
+  github-token:
+    required: true
+    description: GitHub token that can checkout the repository. e.g. 'secrets.GITHUB_TOKEN'
+    default: ${{ github.token }}
+  python-version:
+    required: false
+    description: Python version to install on the github runner.
+    default: 3.10.4
+runs:
+  using: composite
+  steps:
+    - name: Common lint
+      uses: armand-sauzay/actions-ci-cd/lint/common@initial-repo-setup
+    - name: Setup python
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ inputs.python_version }}
+    - name: Install poetry
+      if: hashFiles('poetry.lock') != ''
+      uses: armand-sauzay/actions-installs/poetry@initial-repo-setup
+    - name: Install poetry dependencies
+      if: hashFiles('poetry.lock') != ''
+      shell: bash
+      run: |
+        poetry install
+    - name: Install pip dependencies
+      if: hashFiles('poetry.lock') == ''
+      shell: bash
+      run: pip install -e .
